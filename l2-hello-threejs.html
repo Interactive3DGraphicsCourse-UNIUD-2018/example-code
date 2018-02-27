@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<title>My first Three.js app</title>
+		<style>
+
+		body {
+			font-family: Monospace;
+			background-color: #f0f0f0;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+
+	</style>
+		<script src="lib/three.min.js"></script>
+		<script src="lib/stats.min.js"></script>
+	</head>
+	<body>
+
+		<script>
+
+			var scene, renderer, camera, stats, cube;
+
+			function Start() {
+
+				scene = new THREE.Scene();
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				var geometry = new THREE.BoxGeometry(1,1,1);
+				var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+				cube = new THREE.Mesh( geometry, material );
+				scene.add( cube );
+
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				document.body.appendChild( stats.domElement );
+
+				camera.position.z = 5;
+
+			}
+
+			function Render() {
+
+				requestAnimationFrame(Render);
+				stats.update();
+
+				renderer.render(scene, camera);
+			}
+
+			Start();
+			Render();
+
+		</script>
+	</body>
+</html>
