@@ -39,7 +39,7 @@
 			camera.position.set(3,4,6);
 			camera.lookAt( new THREE.Vector3(0,0,0));
 
-			var geometry = new THREE.BoxGeometry(3,3,3);
+			var geometry = new THREE.BoxGeometry(2,2,2);
 			var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa, transparent: true, opacity:0.4 } );
 			var cube = new THREE.Mesh( geometry, material );
 
@@ -49,7 +49,22 @@
 			var cylinder_material = new THREE.MeshBasicMaterial( { color: 0xaaaaff });
 
 			var cylinder = new THREE.Mesh(cylinder_geometry, cylinder_material);
-			cylinder.matrix.makeRotationAxis( new THREE.Vector3(1,0,1).normalize(), 45*Math.PI/180);
+
+			var maxCorner = new THREE.Vector3(-1,1,1);
+			var minCorner = new THREE.Vector3(1,-1,-1);
+			var rotatedCyl_axis = new THREE.Vector3();
+			rotatedCyl_axis.subVectors(maxCorner, minCorner);
+			rotatedCyl_axis.normalize();
+			var angle = Math.acos( rotatedCyl_axis.dot( new THREE.Vector3(0,1,0)) );
+
+			var rotationAxis = new THREE.Vector3();
+			rotationAxis.crossVectors(new THREE.Vector3(0,1,0), rotatedCyl_axis);
+			rotationAxis.normalize();
+
+			console.log(rotationAxis);
+
+
+			cylinder.matrix.makeRotationAxis( new THREE.Vector3(1,0,1).normalize(), angle);
 			cylinder.matrixAutoUpdate = false;
 			scene.add( cylinder );
 
